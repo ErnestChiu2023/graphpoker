@@ -143,13 +143,13 @@ const PokerApp = () => {
 
   const renderSuit = (suit) => {
     if (suit === "hearts") {
-      return "❤️;";
+      return <h3 style={{ display: "inline" }}>❤️</h3>;
     } else if (suit === "spades") {
-      return "♠️";
+      return <h3 style={{ display: "inline" }}>♠️</h3>;
     } else if (suit === "clubs") {
-      return "♣️";
+      return <h3 style={{ display: "inline" }}>♣️</h3>;
     } else {
-      return "♦️";
+      return <h3 style={{ display: "inline" }}>♦️</h3>;
     }
   };
 

@@ -6,16 +6,16 @@ const PokerApp = () => {
   // including the players and their hands
   const [gameState, setGameState] = useState({
     players: JSON.parse(localStorage.getItem("players")) || [
-      { name: "Ernest", hand: [] },
-      { name: "Kerry", hand: [] },
-      { name: "Jim", hand: [] },
-      { name: "Lewis", hand: [] },
-      { name: "Irfan", hand: [] },
-      { name: "Nick", hand: [] },
-      { name: "Bjon", hand: [] },
       { name: "Jes", hand: [] },
-      { name: "Gary", hand: [] },
+      { name: "Nick", hand: [] },
+      { name: "Lewis", hand: [] },
+      { name: "Kerry", hand: [] },
+      { name: "Irfan", hand: [] },
       { name: "Ryan", hand: [] },
+      { name: "Ernest", hand: [] },
+      { name: "Bjon", hand: [] },
+      { name: "Jim", hand: [] },
+      { name: "Gary", hand: [] },
     ],
   });
 

@@ -160,7 +160,7 @@ const PokerApp = () => {
       </Typography.Title>
       {/* Render the player names and their hands */}
       <Button onClick={drawCards}>Draw cards</Button>
-      <Button onClick={clearLocalStorage}>Clear local storage</Button>
+      <Button onClick={clearLocalStorage}>Clear Board</Button>
       {gameState.players.map((player) => (
         <div key={player.name}>
           <h2>{player.name}</h2>

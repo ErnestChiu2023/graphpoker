@@ -153,17 +153,58 @@ const PokerApp = () => {
     }
   };
 
+  const renderUserEmoji = (name) => {
+    switch (name) {
+      case "Jes": {
+        return <h3 style={{ display: "inline" }}>🐕</h3>;
+      }
+      case "Nick": {
+        return <h3 style={{ display: "inline" }}>🐈</h3>;
+      }
+      case "Lewis": {
+        return <h3 style={{ display: "inline" }}>⚡</h3>;
+      }
+      case "Irfan": {
+        return <h3 style={{ display: "inline" }}>🌊</h3>;
+      }
+      case "Kerry": {
+        return <h3 style={{ display: "inline" }}>🚲</h3>;
+      }
+      case "Ryan": {
+        return <h3 style={{ display: "inline" }}>🦀</h3>;
+      }
+      case "Ernest": {
+        return <h3 style={{ display: "inline" }}>🎱</h3>;
+      }
+
+      case "Bjon": {
+        return <h3 style={{ display: "inline" }}>🔥</h3>;
+      }
+      case "Jim": {
+        return <h3 style={{ display: "inline" }}>🎹</h3>;
+      }
+      case "Gary": {
+        return <h3 style={{ display: "inline" }}>🎵</h3>;
+      }
+      default: {
+        return;
+      }
+    }
+  };
+
   return (
     <div style={{ margin: "30px" }}>
       <Typography.Title level={2} style={{ marginBottom: "10px" }}>
         Graph Poker 🦒
       </Typography.Title>
       {/* Render the player names and their hands */}
-      <Button onClick={drawCards}>Draw cards</Button>
+      <Button onClick={drawCards} style={{ marginRight: "5px"}}>Draw cards</Button>
       <Button onClick={clearLocalStorage}>Clear Board</Button>
       {gameState.players.map((player) => (
         <div key={player.name}>
-          <h2>{player.name}</h2>
+          <h2>
+            {player.name} {renderUserEmoji(player.name)}
+          </h2>
           <Button onClick={() => drawCard(player)}>Draw Card</Button>
           <div style={{ marginTop: "5px" }}>
             <Row gutter={16}>

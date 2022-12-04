@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Card, Button, Col, Row, Typography } from "antd";
-
 const PokerApp = () => {
   // Use React's useState hook to keep track of the game state,
   // including the players and their hands
@@ -20,7 +19,22 @@ const PokerApp = () => {
   });
 
   const clearLocalStorage = () => {
-    localStorage.clear();
+    setGameState({
+      ...gameState,
+      players: [
+        { name: "Jes", hand: [] },
+        { name: "Nick", hand: [] },
+        { name: "Lewis", hand: [] },
+        { name: "Kerry", hand: [] },
+        { name: "Irfan", hand: [] },
+        { name: "Ryan", hand: [] },
+        { name: "Ernest", hand: [] },
+        { name: "Bjon", hand: [] },
+        { name: "Jim", hand: [] },
+        { name: "Gary", hand: [] },
+      ],
+    });
+    localStorage.removeItem("players");
   };
 
   // Create a deck of cards
@@ -198,7 +212,9 @@ const PokerApp = () => {
         Graph Poker 🦒
       </Typography.Title>
       {/* Render the player names and their hands */}
-      <Button onClick={drawCards} style={{ marginRight: "5px"}}>Draw cards</Button>
+      <Button onClick={drawCards} style={{ marginRight: "5px" }}>
+        Draw cards
+      </Button>
       <Button onClick={clearLocalStorage}>Clear Board</Button>
       {gameState.players.map((player) => (
         <div key={player.name}>

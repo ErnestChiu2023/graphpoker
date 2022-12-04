@@ -205,6 +205,7 @@ const PokerApp = () => {
       }
     }
   };
+  console.log(gameState?.players.map((player) => player.hand.length));
 
   return (
     <div style={{ margin: "30px" }}>
@@ -212,7 +213,14 @@ const PokerApp = () => {
         Graph Poker 🦒
       </Typography.Title>
       {/* Render the player names and their hands */}
-      <Button onClick={drawCards} style={{ marginRight: "5px" }}>
+      <Button
+        onClick={drawCards}
+        style={{ marginRight: "5px" }}
+        disabled={
+          5 <=
+          Math.max(...gameState?.players.map((player) => player.hand.length))
+        }
+      >
         Draw cards
       </Button>
       <Button onClick={clearLocalStorage}>Clear Board</Button>
@@ -221,7 +229,7 @@ const PokerApp = () => {
           <h2>
             {player.name} {renderUserEmoji(player.name)}
           </h2>
-          <Button onClick={() => drawCard(player)}>Draw Card</Button>
+          <Button onClick={() => drawCard(player)} disabled={5 <= player.hand.length}>Draw Card</Button>
           <div style={{ marginTop: "5px" }}>
             <Row gutter={16}>
               {player.hand.map((card, index) => (

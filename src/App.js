@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Button, Col, Row, Typography } from "antd";
+import { Button, Col, Row, Typography } from "antd";
 const PokerApp = () => {
   // Use React's useState hook to keep track of the game state,
   // including the players and their hands
@@ -10,9 +10,9 @@ const PokerApp = () => {
       { name: "Lewis", hand: [] },
       { name: "Kerry", hand: [] },
       { name: "Irfan", hand: [] },
-      { name: "Ryan", hand: [] },
-      { name: "Ernest", hand: [] },
-      { name: "Bjon", hand: [] },
+      // { name: "Ryan", hand: [] },
+      // { name: "Ernest", hand: [] },
+      // { name: "Bjon", hand: [] },
       { name: "Jim", hand: [] },
       { name: "Gary", hand: [] },
     ],
@@ -27,9 +27,9 @@ const PokerApp = () => {
         { name: "Lewis", hand: [] },
         { name: "Kerry", hand: [] },
         { name: "Irfan", hand: [] },
-        { name: "Ryan", hand: [] },
-        { name: "Ernest", hand: [] },
-        { name: "Bjon", hand: [] },
+        // { name: "Ryan", hand: [] },
+        // { name: "Ernest", hand: [] },
+        // { name: "Bjon", hand: [] },
         { name: "Jim", hand: [] },
         { name: "Gary", hand: [] },
       ],
@@ -157,13 +157,13 @@ const PokerApp = () => {
 
   const renderSuit = (suit) => {
     if (suit === "hearts") {
-      return <h3 style={{ display: "inline" }}>❤️</h3>;
+      return <h3 style={{ display: "inline", color: "red" }}>♥️</h3>;
     } else if (suit === "spades") {
       return <h3 style={{ display: "inline" }}>♠️</h3>;
     } else if (suit === "clubs") {
       return <h3 style={{ display: "inline" }}>♣️</h3>;
     } else {
-      return <h3 style={{ display: "inline" }}>♦️</h3>;
+      return <h3 style={{ display: "inline", color: "red" }}>♦️</h3>;
     }
   };
 
@@ -190,7 +190,6 @@ const PokerApp = () => {
       case "Ernest": {
         return <h3 style={{ display: "inline" }}>🎱</h3>;
       }
-
       case "Bjon": {
         return <h3 style={{ display: "inline" }}>🔥</h3>;
       }
@@ -229,20 +228,24 @@ const PokerApp = () => {
           <h2>
             {player.name} {renderUserEmoji(player.name)}
           </h2>
-          <Button onClick={() => drawCard(player)} disabled={5 <= player.hand.length}>Draw Card</Button>
+          <Button
+            onClick={() => drawCard(player)}
+            disabled={5 <= player.hand.length}
+          >
+            Draw Card
+          </Button>
           <div style={{ marginTop: "5px" }}>
-            <Row gutter={16}>
+            <Row gutter={8}>
               {player.hand.map((card, index) => (
-                <Col span={4} key={card.code}>
-                  <Card key={card.suit + card.value}>
-                    <p>
-                      {card.value}
-                      {renderSuit(card.suit)}
-                    </p>
-                    <Button onClick={() => removeCard(player, index)}>
-                      Remove
-                    </Button>
-                  </Card>
+                <Col span={1.5} key={card.code}>
+                  <Button
+                    key={card.suit + card.value}
+                    onClick={() => removeCard(player, index)}
+                    style={{ width: "100px", height: "50px" }}
+                  >
+                    {card.value}
+                    {renderSuit(card.suit)}
+                  </Button>
                 </Col>
               ))}
             </Row>

@@ -1,10 +1,39 @@
 import React, { useState } from "react";
 import { Button, Col, Row, Typography } from "antd";
+
+const PLAYERS = {
+  'Jes': '🐕',
+  'Nick': '🐈',
+  'Lewis': '⚡',
+  'Irfan': '🌊',
+  'Kerry': '🚲',
+  'Jim': '🎹',
+  'Gary': '🎵',
+};
+
+type PlayerName = keyof typeof PLAYERS;
+
+type Suit = 'clubs' | 'spades' | 'hearts' | 'diamonds';
+interface Card {
+  suit: Suit;
+  value: '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A';
+}
+
+interface PlayerState {
+  name: PlayerName;
+  hand: Card[];
+}
+
+interface GameState {
+  players: PlayerState[];
+}
+
+
 const PokerApp = () => {
   // Use React's useState hook to keep track of the game state,
   // including the players and their hands
-  const [gameState, setGameState] = useState({
-    players: JSON.parse(localStorage.getItem("players")) || [
+  const [gameState, setGameState] = useState<GameState>({
+    players: JSON.parse(localStorage.getItem("players") as any) || [
       { name: "Jes", hand: [] },
       { name: "Nick", hand: [] },
       { name: "Lewis", hand: [] },
@@ -38,7 +67,7 @@ const PokerApp = () => {
   };
 
   // Create a deck of cards
-  const deck = [
+  const DECK: Card[] = [
     { suit: "clubs", value: "2" },
     { suit: "clubs", value: "3" },
     { suit: "clubs", value: "4" },
@@ -93,16 +122,17 @@ const PokerApp = () => {
     { suit: "spades", value: "A" },
   ];
 
+
   // Create a function to draw a card for each player
   const drawCards = () => {
     const newState = { ...gameState };
 
     newState.players.forEach((player) => {
       // Generate a random index between 0 and the length of the deck
-      const index = Math.floor(Math.random() * deck.length);
+      const index = Math.floor(Math.random() * DECK.length);
 
       // Remove the card at the random index from the deck
-      const card = deck[index];
+      const card = DECK[index];
 
       // Add the card to the player's hand
       player.hand.push(card);
@@ -115,7 +145,7 @@ const PokerApp = () => {
     setGameState(newState);
   };
 
-  const removeCard = (player, index) => {
+  const removeCard = (player: PlayerState, index: number) => {
     // Create a new array with the card at the specified index removed
     const newHand = player.hand.filter((card, i) => i !== index);
 
@@ -133,29 +163,27 @@ const PokerApp = () => {
   };
 
   // Create a function to draw a card for a player
-  const drawCard = (player) => {
-    const newState = { ...gameState };
-
-    // Find the player in the game state
-    const currentPlayer = newState.players.find((p) => p.name === player.name);
-
-    // Generate a random index between 0 and the length of the deck
-    const index = Math.floor(Math.random() * deck.length);
-
-    // Remove the card at the random index from the deck
-    const card = deck.splice(index, 1)[0];
-
-    // Add the card to the player's hand
-    currentPlayer.hand.push(card);
-
+  const drawCard = (player: PlayerState) => {
+    const players = gameState.players.map((p) => {
+      if (p.name === player.name) {
+        // Generate a random index between 0 and the length of the deck
+        const index = Math.floor(Math.random() * DECK.length);
+        // Remove the card at the random index from the deck
+        const card = DECK.splice(index, 1)[0];
+        // Add the card to the player's hand
+        return {...p, hand: [...player.hand, card]};
+      } else {
+        return p;
+      }
+    });
     // Save the player's hands to local storage
-    localStorage.setItem("players", JSON.stringify(newState.players));
+    localStorage.setItem("players", JSON.stringify(players));
 
     // Update the game state with the new player hands
-    setGameState(newState);
+    setGameState({...gameState, players});
   };
 
-  const renderSuit = (suit) => {
+  const renderSuit = (suit: Suit) => {
     if (suit === "hearts") {
       return <h3 style={{ display: "inline", color: "red" }}>♥️</h3>;
     } else if (suit === "spades") {
@@ -167,42 +195,8 @@ const PokerApp = () => {
     }
   };
 
-  const renderUserEmoji = (name) => {
-    switch (name) {
-      case "Jes": {
-        return <h3 style={{ display: "inline" }}>🐕</h3>;
-      }
-      case "Nick": {
-        return <h3 style={{ display: "inline" }}>🐈</h3>;
-      }
-      case "Lewis": {
-        return <h3 style={{ display: "inline" }}>⚡</h3>;
-      }
-      case "Irfan": {
-        return <h3 style={{ display: "inline" }}>🌊</h3>;
-      }
-      case "Kerry": {
-        return <h3 style={{ display: "inline" }}>🚲</h3>;
-      }
-      case "Ryan": {
-        return <h3 style={{ display: "inline" }}>🦀</h3>;
-      }
-      case "Ernest": {
-        return <h3 style={{ display: "inline" }}>🎱</h3>;
-      }
-      case "Bjon": {
-        return <h3 style={{ display: "inline" }}>🔥</h3>;
-      }
-      case "Jim": {
-        return <h3 style={{ display: "inline" }}>🎹</h3>;
-      }
-      case "Gary": {
-        return <h3 style={{ display: "inline" }}>🎵</h3>;
-      }
-      default: {
-        return;
-      }
-    }
+  const renderUserEmoji = (name: PlayerName) => {
+    return <h3 style={{ display: "inline" }}>{PLAYERS[name]}</h3>;
   };
   console.log(gameState?.players.map((player) => player.hand.length));
 
@@ -237,9 +231,8 @@ const PokerApp = () => {
           <div style={{ marginTop: "5px" }}>
             <Row gutter={8}>
               {player.hand.map((card, index) => (
-                <Col span={1.5} key={card.code}>
+                <Col span={1.5} key={card.suit + card.value}>
                   <Button
-                    key={card.suit + card.value}
                     onClick={() => removeCard(player, index)}
                     style={{ width: "100px", height: "50px" }}
                   >

@@ -1,4 +1,4 @@
-import { Card, Suit, Value } from "./types";
+import { Card, Value } from "./types";
 
 
 const getRank = (value: Value) => {
@@ -22,7 +22,7 @@ const checkStraight = (hand: Card[]) => {
   // Array.prototype.sort sorts numbers lexicographically, not numerically
   // We need a custom sort function to compare numbers as numbers, not strings
   const ranks = hand.map((c) => getRank(c.value)).sort((a, b) => (a - b));
-  if (ranks[0] == getRank('2') && ranks[ranks.length - 1] == getRank('A')) {
+  if (ranks[0] === getRank('2') && ranks[ranks.length - 1] === getRank('A')) {
     // A,2,3,4,5 is a straight, but we have to re-rank is as a `1`
     ranks.pop();
     ranks.unshift(getRank('2') - 1);

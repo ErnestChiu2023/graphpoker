@@ -9,6 +9,9 @@ const getRank = (value: Value) => {
 };
 
 const checkFlush = (hand: Card[]) => {
+  if (hand.length < 5) return false;
+
+
   return hand.every((c) => c.suit === hand[0].suit);
 };
 
